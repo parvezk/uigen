@@ -45,7 +45,7 @@ export function ChatProvider({
       }),
     }),
     onToolCall: ({ toolCall }) => {
-      handleToolCall(toolCall as any);
+      handleToolCall({ toolName: toolCall.toolName, args: (toolCall as any).input });
     },
   });
 
