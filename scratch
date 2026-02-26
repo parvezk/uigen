@@ -1,3 +1,7 @@
+/init to create CLAUDE.md
+
+/memory to add custom comments
+
 escape + /memory
 
 double escape
@@ -6,4 +10,10 @@ double escape
 
 /clear
 
-// Added custom command
+// Added custom command - 
+/audit (.claude/commands/audit.md)
+/write_test (.claude/commands/write_tests.md)
+
+// Add new tools and capabilities through MCP server
+- Claude Code default set of tools
+  - Tools provided by MCP servers - Playwright MCP server (tools to open browser, navigate, click on screen)
