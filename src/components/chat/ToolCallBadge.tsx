@@ -1,7 +1,7 @@
 "use client";
 
 import { Loader2 } from "lucide-react";
-import type { ToolInvocation } from "ai";
+import type { UIToolInvocation } from "ai";
 
 function basename(path?: string): string {
   if (!path) return "";
@@ -54,14 +54,15 @@ export function getToolCallLabel(
 }
 
 interface ToolCallBadgeProps {
-  toolInvocation: ToolInvocation;
+  toolName: string;
+  toolInvocation: UIToolInvocation<any>;
 }
 
-export function ToolCallBadge({ toolInvocation }: ToolCallBadgeProps) {
-  const isDone = toolInvocation.state === "result";
+export function ToolCallBadge({ toolName, toolInvocation }: ToolCallBadgeProps) {
+  const isDone = toolInvocation.state === "output-available";
   const label = getToolCallLabel(
-    toolInvocation.toolName,
-    toolInvocation.args as Record<string, any>,
+    toolName,
+    (toolInvocation.input as Record<string, any>) ?? {},
     isDone
   );
 

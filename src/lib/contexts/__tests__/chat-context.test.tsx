@@ -1,5 +1,5 @@
 import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, waitFor, act, cleanup } from "@testing-library/react";
+import { render, screen, waitFor, cleanup } from "@testing-library/react";
 import { ChatProvider, useChat } from "../chat-context";
 import { useFileSystem } from "../file-system-context";
 import { useChat as useAIChat } from "@ai-sdk/react";
@@ -49,7 +49,7 @@ describe("ChatContext", () => {
     input: "",
     handleInputChange: vi.fn(),
     handleSubmit: vi.fn(),
-    status: "idle",
+    status: "ready",
   };
 
   beforeEach(() => {
@@ -76,13 +76,13 @@ describe("ChatContext", () => {
 
     expect(screen.getByTestId("messages").textContent).toBe("0");
     expect(screen.getByTestId("input").getAttribute("value")).toBe(null);
-    expect(screen.getByTestId("status").textContent).toBe("idle");
+    expect(screen.getByTestId("status").textContent).toBe("ready");
   });
 
   test("initializes with project ID and messages", () => {
     const initialMessages = [
-      { id: "1", role: "user" as const, content: "Hello" },
-      { id: "2", role: "assistant" as const, content: "Hi there!" },
+      { id: "1", role: "user" as const, parts: [{ type: "text" as const, text: "Hello" }] },
+      { id: "2", role: "assistant" as const, parts: [{ type: "text" as const, text: "Hi there!" }] },
     ];
 
     (useAIChat as any).mockReturnValue({
@@ -96,21 +96,18 @@ describe("ChatContext", () => {
       </ChatProvider>
     );
 
-    expect(useAIChat).toHaveBeenCalledWith({
-      api: "/api/chat",
-      initialMessages,
-      body: {
-        files: mockFileSystem.serialize(),
-        projectId: "test-project",
-      },
-      onToolCall: expect.any(Function),
-    });
+    expect(useAIChat).toHaveBeenCalledWith(
+      expect.objectContaining({
+        messages: initialMessages,
+        onToolCall: expect.any(Function),
+      })
+    );
 
     expect(screen.getByTestId("messages").textContent).toBe("2");
   });
 
   test("tracks anonymous work when no project ID", async () => {
-    const mockMessages = [{ id: "1", role: "user", content: "Hello" }];
+    const mockMessages = [{ id: "1", role: "user", parts: [{ type: "text", text: "Hello" }] }];
 
     (useAIChat as any).mockReturnValue({
       ...mockUseAIChat,
@@ -132,7 +129,7 @@ describe("ChatContext", () => {
   });
 
   test("does not track anonymous work when project ID exists", async () => {
-    const mockMessages = [{ id: "1", role: "user", content: "Hello" }];
+    const mockMessages = [{ id: "1", role: "user", parts: [{ type: "text", text: "Hello" }] }];
 
     (useAIChat as any).mockReturnValue({
       ...mockUseAIChat,
@@ -158,7 +155,7 @@ describe("ChatContext", () => {
       ...mockUseAIChat,
       handleInputChange: mockHandleInputChange,
       handleSubmit: mockHandleSubmit,
-      status: "loading",
+      status: "streaming",
     });
 
     render(
@@ -167,7 +164,7 @@ describe("ChatContext", () => {
       </ChatProvider>
     );
 
-    expect(screen.getByTestId("status").textContent).toBe("loading");
+    expect(screen.getByTestId("status").textContent).toBe("streaming");
 
     // Verify functions are passed through
     const textarea = screen.getByTestId("input");

@@ -210,15 +210,15 @@ describe("getToolCallLabel", () => {
 // ─── Component tests ────────────────────────────────────────────────────────
 
 describe("ToolCallBadge", () => {
-  test("shows in-progress label and spinner when state is 'call'", () => {
+  test("shows in-progress label and spinner when state is 'input-available'", () => {
     render(
       <ToolCallBadge
+        toolName="str_replace_editor"
         toolInvocation={{
-          state: "call",
+          state: "input-available",
           toolCallId: "1",
-          toolName: "str_replace_editor",
-          args: { command: "create", path: "/App.jsx" },
-        }}
+          input: { command: "create", path: "/App.jsx" },
+        } as any}
       />
     );
     expect(screen.getByText("Creating App.jsx")).toBeDefined();
@@ -226,31 +226,31 @@ describe("ToolCallBadge", () => {
     expect(screen.queryByTestId("done-indicator")).toBeNull();
   });
 
-  test("shows in-progress label and spinner when state is 'partial-call'", () => {
+  test("shows in-progress label and spinner when state is 'input-streaming'", () => {
     render(
       <ToolCallBadge
+        toolName="str_replace_editor"
         toolInvocation={{
-          state: "partial-call",
+          state: "input-streaming",
           toolCallId: "1",
-          toolName: "str_replace_editor",
-          args: { command: "create", path: "/App.jsx" },
-        }}
+          input: { command: "create", path: "/App.jsx" },
+        } as any}
       />
     );
     expect(screen.getByText("Creating App.jsx")).toBeDefined();
     expect(screen.getByTestId("loading-indicator")).toBeDefined();
   });
 
-  test("shows done label and green dot when state is 'result'", () => {
+  test("shows done label and green dot when state is 'output-available'", () => {
     render(
       <ToolCallBadge
+        toolName="str_replace_editor"
         toolInvocation={{
-          state: "result",
+          state: "output-available",
           toolCallId: "1",
-          toolName: "str_replace_editor",
-          args: { command: "create", path: "/App.jsx" },
-          result: "File created",
-        }}
+          input: { command: "create", path: "/App.jsx" },
+          output: "File created",
+        } as any}
       />
     );
     expect(screen.getByText("Created App.jsx")).toBeDefined();
@@ -261,13 +261,13 @@ describe("ToolCallBadge", () => {
   test("renders str_replace correctly when done", () => {
     render(
       <ToolCallBadge
+        toolName="str_replace_editor"
         toolInvocation={{
-          state: "result",
+          state: "output-available",
           toolCallId: "2",
-          toolName: "str_replace_editor",
-          args: { command: "str_replace", path: "/components/Card.jsx" },
-          result: "OK",
-        }}
+          input: { command: "str_replace", path: "/components/Card.jsx" },
+          output: "OK",
+        } as any}
       />
     );
     expect(screen.getByText("Edited Card.jsx")).toBeDefined();
@@ -276,13 +276,13 @@ describe("ToolCallBadge", () => {
   test("renders file_manager delete correctly when done", () => {
     render(
       <ToolCallBadge
+        toolName="file_manager"
         toolInvocation={{
-          state: "result",
+          state: "output-available",
           toolCallId: "3",
-          toolName: "file_manager",
-          args: { command: "delete", path: "/old.jsx" },
-          result: { success: true },
-        }}
+          input: { command: "delete", path: "/old.jsx" },
+          output: { success: true },
+        } as any}
       />
     );
     expect(screen.getByText("Deleted old.jsx")).toBeDefined();
@@ -291,13 +291,13 @@ describe("ToolCallBadge", () => {
   test("renders file_manager rename correctly when done", () => {
     render(
       <ToolCallBadge
+        toolName="file_manager"
         toolInvocation={{
-          state: "result",
+          state: "output-available",
           toolCallId: "4",
-          toolName: "file_manager",
-          args: { command: "rename", path: "/old.jsx", new_path: "/new.jsx" },
-          result: { success: true },
-        }}
+          input: { command: "rename", path: "/old.jsx", new_path: "/new.jsx" },
+          output: { success: true },
+        } as any}
       />
     );
     expect(screen.getByText("Renamed old.jsx → new.jsx")).toBeDefined();
@@ -306,12 +306,12 @@ describe("ToolCallBadge", () => {
   test("renders file_manager rename in progress", () => {
     render(
       <ToolCallBadge
+        toolName="file_manager"
         toolInvocation={{
-          state: "call",
+          state: "input-available",
           toolCallId: "5",
-          toolName: "file_manager",
-          args: { command: "rename", path: "/old.jsx", new_path: "/new.jsx" },
-        }}
+          input: { command: "rename", path: "/old.jsx", new_path: "/new.jsx" },
+        } as any}
       />
     );
     expect(screen.getByText("Renaming old.jsx")).toBeDefined();
