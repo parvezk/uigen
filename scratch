@@ -38,3 +38,14 @@ Claude Code Review - Automated code review on new PRs ✔
 Update .github/workflows/claude.yml with custom instructions to run claude cloud agents for PR review etc
 
 Add Playwright MCP server to custom instruction claude.yml
+
+//
+Create an issue tagging @claude
+
+Sometimes it feels like the toggle buttons aren't working as expected.
+
+Here are the ones I'm talking about:
+
+<img width="292" height="78" alt="Image" src="https://github.com/user-attachments/assets/1f5c68aa-a694-4e8f-bb71-fa265484c94f" />
+
+@claude can you take a look at this? Just test them out and verify that clicking them toggles between the code and preview tabs.
