@@ -10,10 +10,31 @@ double escape
 
 /clear
 
-// Added custom command - 
+// Added custom command -
 /audit (.claude/commands/audit.md)
 /write_test (.claude/commands/write_tests.md)
 
 // Add new tools and capabilities through MCP server
+
 - Claude Code default set of tools
   - Tools provided by MCP servers - Playwright MCP server (tools to open browser, navigate, click on screen)
+    //
+    Tested playwright MCP with below
+    Your goal is to improve the compmonent generation prompt at @src/lib/prompts/generation.tsx . Here's how: \
+
+1. Open a browser and navigate to localhost: 3000\
+2. Request a basic component to be generated\
+   Review the generated component and its source code\
+3. Identify areas for improvement\
+4. Update the prompt to produce better components going forward. \
+    FOr now, only evaluate visual styling aspects. We don't want components generated that look like typical tailwindcss components - we want something more original.
+   //
+   Set up Claude GitHub Actions for a repository
+   Setup with /install-github-app
+
+❯ @Claude Code - Tag @claude in issues and PR comments ✔
+Claude Code Review - Automated code review on new PRs ✔
+
+Update .github/workflows/claude.yml with custom instructions to run claude cloud agents for PR review etc
+
+Add Playwright MCP server to custom instruction claude.yml
