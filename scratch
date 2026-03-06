@@ -49,3 +49,7 @@ Here are the ones I'm talking about:
 <img width="292" height="78" alt="Image" src="https://github.com/user-attachments/assets/1f5c68aa-a694-4e8f-bb71-fa265484c94f" />
 
 @claude can you take a look at this? Just test them out and verify that clicking them toggles between the code and preview tabs.
+
+// Hooks
+PreToolSUse hooks runs -> agent action/prompt execution ->PostToolUse hooks runs
+Hook definitionn (project/global/user)
